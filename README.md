@@ -1,2 +1,1 @@
-# DCK
-Camo Kit for KSP
+# DCKit
