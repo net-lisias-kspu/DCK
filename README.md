@@ -15,7 +15,11 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.
 
-This program also incorporates work previously released with DCK v0.0.7 under the MIT License. To comply with the requirements of that license, the following permission notice, applicable to those parts of the code only, is included below:
+This KSP Mod also incorporates code from a part of USITools called PartCatalog.cs and is used under the GPLv3 License. 
+
+https://github.com/UmbraSpaceIndustries/UmbraSpaceIndustries/blob/master/USITools/USITools/PartCatalog.cs
+
+This KSP Mod also incorporates work previously released with DCK v0.0.7 under the MIT License. To comply with the requirements of that license, the following permission notice, applicable to those parts of the code only, is included below:
 
 Copyright © 2017 Francis Stocker
 
@@ -24,3 +28,4 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
