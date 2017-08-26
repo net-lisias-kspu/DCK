@@ -11,3 +11,6 @@ C:\Users\Black Ops\KSP_DEV\GameData\000_USITools\DCKinc.pdb
 C:\Users\Black Ops\Desktop\MODS\DCK\DCKinc\obj\Debug\DCKinc.csprojResolveAssemblyReference.cache
 C:\Users\Black Ops\Desktop\MODS\DCK\DCKinc\obj\Debug\DCKinc.dll
 C:\Users\Black Ops\Desktop\MODS\DCK\DCKinc\obj\Debug\DCKinc.pdb
+C:\Users\Black Ops\Desktop\MODS\DCK - DCKtextureswitch\DCKinc_Plugin\obj\Debug\DCKinc.csprojResolveAssemblyReference.cache
+C:\Users\Black Ops\Desktop\MODS\DCK - DCKtextureswitch\DCKinc_Plugin\obj\Debug\DCKinc.dll
+C:\Users\Black Ops\Desktop\MODS\DCK - DCKtextureswitch\DCKinc_Plugin\obj\Debug\DCKinc.pdb
