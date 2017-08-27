@@ -1,5 +1,5 @@
-using Firespitter;
-using Firespitter.customization;
+using DCKinc;
+using DCKinc.customization;
 using KSP.UI.Screens;
 using System;
 using System.Collections.Generic;
@@ -93,16 +93,16 @@ namespace DCKinc
         {
             Part root = EditorLogic.RootPart;
             if (!root)
-                return;
-
-            // find all FStextureSwitch2 modules on all parts
-            List<FStextureSwitch2> dckParts = new List<FStextureSwitch2>(200);
+                return;            // find all DCKtextureswitch2 modules on all parts
+            List<DCKtextureswitch2> dckParts = new List<DCKtextureswitch2>(200);
             foreach (Part p in EditorLogic.fetch.ship.Parts)
-                dckParts.AddRange(p.FindModulesImplementing<FStextureSwitch2>());
-
-            foreach (FStextureSwitch2 dckPart in dckParts)
             {
-                // send previous or next command
+                dckParts.AddRange(p.FindModulesImplementing<DCKtextureswitch2>());
+            }
+            foreach (DCKtextureswitch2 dckPart in dckParts)
+            {
+                dckPart.updateSymmetry = false;             //FIX symmetry problems because DCK also applies its own logic here
+                                                            // send previous or next command
                 if (next)
                     dckPart.nextTextureEvent();
                 else
