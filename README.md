@@ -1,6 +1,6 @@
 DCK - Davinci's Combat Kit
 
-A mod for KSP that adds 9 textures (5 digi camo, Black, Dark Grey, Light Grey and Orange) to Stock, BD Armory Continued,BDMk22 and SM_AFVs for use in conjunction with Firespitter
+A mod for KSP that adds 9 textures (5 digi camo, Black, Dark Grey, Light Grey and Orange) to Stock, BD Armory Continued,BDMk22 and SM_AFVs
 
 DCK also includes a miniaturized 'Panther' called the 'Kitty', 2 Stealth Coating parts (ECM modules) and 35 types of armor plating for use in conjuction with BD Armory Continued
 
