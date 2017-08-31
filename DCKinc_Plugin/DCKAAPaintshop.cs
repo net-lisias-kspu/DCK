@@ -25,7 +25,7 @@ namespace DCKinc
         void Start()
         {
             Instance = this;
-            windowRect = new Rect(Screen.width - 250, Screen.height - 100, 200, 75);  //default size and coordinates, change as suitable
+            windowRect = new Rect(Screen.width - 200, Screen.height - 100, 200, 75);  //default size and coordinates, change as suitable
             AddToolbarButton();
         }
 
