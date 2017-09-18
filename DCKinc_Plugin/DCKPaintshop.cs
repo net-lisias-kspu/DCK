@@ -1,5 +1,7 @@
 using DCKinc;
 using DCKinc.customization;
+using DCKinc.AAcustomization;
+using InterstellarFuelSwitch;
 using KSP.UI.Screens;
 using System;
 using System.Collections.Generic;
@@ -25,7 +27,7 @@ namespace DCKinc
         void Start()
         {
             Instance = this;
-            windowRect = new Rect(Screen.width - 250, Screen.height - 100, 200, 75);  //default size and coordinates, change as suitable
+            windowRect = new Rect(Screen.width - 215, Screen.height - 300, 200, 100);  //default size and coordinates, change as suitable
             AddToolbarButton();
         }
 
@@ -75,15 +77,25 @@ namespace DCKinc
 
         void DCKWindow(int windowID)
         {
-            if (GUI.Button(new Rect(10, 30, 75, 25), "DCK Prev", HighLogic.Skin.button))    //change rect here for button size, position and text
+            if (GUI.Button(new Rect(18, 30, 75, 25), "DCK Prev", HighLogic.Skin.button))    //change rect here for button size, position and text
             {
                 SendEventDCK(false);
             }
 
-            if (GUI.Button(new Rect(100, 30, 75, 25), "DCK Next", HighLogic.Skin.button))       //change rect here for button size, position and text
+            if (GUI.Button(new Rect(105, 30, 75, 25), "DCK Next", HighLogic.Skin.button))       //change rect here for button size, position and text
             {
                 SendEventDCK(true);
             }
+            if (GUI.Button(new Rect(18, 65, 75, 25), "Armor Prev", HighLogic.Skin.button))    //change rect here for button size, position and text
+            {
+                SendEventDCKAA(false);
+            }
+
+            if (GUI.Button(new Rect(105, 65, 75, 25), "Armor Next", HighLogic.Skin.button))       //change rect here for button size, position and text
+            {
+                SendEventDCKAA(true);
+            }
+
 
             GUI.DragWindow();
         }
@@ -108,9 +120,28 @@ namespace DCKinc
                 else
                     dckPart.previousTextureEvent();
             }
-
         }
 
 
+        void SendEventDCKAA(bool next)  //true: next texture, false: previous texture
+        {
+            Part root = EditorLogic.RootPart;
+            if (!root)
+                return;            // find all DCKAAtextureswitch2 modules on all parts
+            List<DCKAAtextureswitch2> dckAAParts = new List<DCKAAtextureswitch2>(200);
+            foreach (Part p in EditorLogic.fetch.ship.Parts)
+            {
+                dckAAParts.AddRange(p.FindModulesImplementing<DCKAAtextureswitch2>());
+            }
+            foreach (DCKAAtextureswitch2 dckAAPart in dckAAParts)
+            {
+                dckAAPart.updateSymmetry = false;             //FIX symmetry problems because DCK also applies its own logic here
+                                                              // send previous or next command
+                if (next)
+                    dckAAPart.nextTextureEvent();
+                else
+                    dckAAPart.previousTextureEvent();
+            }
+        }
     }
 }
