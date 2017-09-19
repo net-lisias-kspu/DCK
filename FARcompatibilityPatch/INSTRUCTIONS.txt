@@ -1,0 +1,3 @@
+Copy the DCK_FARcompatibilityPatch.bat to KSP/GameData/FerramAerospaceResearch and run 
+
+DCK_FARcompatibilityPatch.bat adds exceptions to FAR so that DCK Aircraft Armor is invisible to FAR Aero calculations and then deletes itself
