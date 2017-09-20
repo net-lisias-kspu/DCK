@@ -1,7 +1,7 @@
 using DCKinc;
 using DCKinc.customization;
 using DCKinc.AAcustomization;
-using InterstellarFuelSwitch;
+using DCKinc.WCcustomization;
 using KSP.UI.Screens;
 using System;
 using System.Collections.Generic;
@@ -86,12 +86,12 @@ namespace DCKinc
             {
                 SendEventDCK(true);
             }
-            if (GUI.Button(new Rect(18, 65, 75, 25), "Armor Prev", HighLogic.Skin.button))    //change rect here for button size, position and text
+            if (GUI.Button(new Rect(18, 65, 75, 25), "Next Tire", HighLogic.Skin.button))    //change rect here for button size, position and text
             {
-                SendEventDCKAA(false);
+                SendEventDCKWC(true);
             }
 
-            if (GUI.Button(new Rect(105, 65, 75, 25), "Armor Next", HighLogic.Skin.button))       //change rect here for button size, position and text
+            if (GUI.Button(new Rect(105, 65, 75, 25), "Armor", HighLogic.Skin.button))       //change rect here for button size, position and text
             {
                 SendEventDCKAA(true);
             }
@@ -119,6 +119,28 @@ namespace DCKinc
                     dckPart.nextTextureEvent();
                 else
                     dckPart.previousTextureEvent();
+            }
+        }
+
+
+        void SendEventDCKWC(bool next)  //true: next texture, false: previous texture
+        {
+            Part root = EditorLogic.RootPart;
+            if (!root)
+                return;            // find all DCKWCtextureswitch2 modules on all parts
+            List<DCKWCtextureswitch2> dckWCParts = new List<DCKWCtextureswitch2>(200);
+            foreach (Part p in EditorLogic.fetch.ship.Parts)
+            {
+                dckWCParts.AddRange(p.FindModulesImplementing<DCKWCtextureswitch2>());
+            }
+            foreach (DCKWCtextureswitch2 dckWCPart in dckWCParts)
+            {
+                dckWCPart.updateSymmetry = false;             //FIX symmetry problems because DCK also applies its own logic here
+                                                            // send previous or next command
+                if (next)
+                    dckWCPart.nextTextureEvent();
+                else
+                    dckWCPart.previousTextureEvent();
             }
         }
 

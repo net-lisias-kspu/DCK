@@ -44,9 +44,6 @@
       <HintPath>..\..\..\KSP_DEV\KSP_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="InterstellarFuelSwitch">
-      <HintPath>..\..\..\Dependencies\InterstellarFuelSwitch.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -63,6 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DCKWCtextureswitch2.cs" />
     <Compile Include="DCKAAtextureswitch2.cs" />
     <Compile Include="DCKgenericButtonHandler.cs" />
     <Compile Include="DCKgenericButtonHandlerID.cs" />
