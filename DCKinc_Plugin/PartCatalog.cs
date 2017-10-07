@@ -59,7 +59,7 @@ namespace DCKinc
         private void SubCategories()
         {
             var icon = GenIcon(categoryTitle);
-            var filter = PartCategorizer.Instance.filters.Find(f => f.button.categoryName == category);
+            var filter = PartCategorizer.Instance.filters.Find(f => f.button.categorydisplayName == "#autoLOC_453547");
             PartCategorizer.AddCustomSubcategoryFilter(filter, categoryTitle, categoryTitle, icon, EditorItemsFilter);
         }
 
