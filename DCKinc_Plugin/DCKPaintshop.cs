@@ -42,7 +42,7 @@ namespace DCKinc
 
         void AddToolbarButton()
         {
-            string textureDir = "DCK/DCKinc/Plugin/";
+            string textureDir = "DCK_Stock/DCKinc/Plugin/";
 
             if (HighLogic.LoadedSceneIsEditor)
             {

@@ -60,6 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DCKmeshSwitch.cs" />
     <Compile Include="DCKWCtextureswitch2.cs" />
     <Compile Include="DCKAAtextureswitch2.cs" />
     <Compile Include="DCKgenericButtonHandler.cs" />

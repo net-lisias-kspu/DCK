@@ -38,7 +38,7 @@ namespace DCKinc
         }
 
         public static String AppPath = KSPUtil.ApplicationRootPath.Replace("\\", "/");
-        public static String PlugInDataPath = AppPath + "GameData/DCK/DCKinc/Plugin/";
+        public static String PlugInDataPath = AppPath + "GameData/DCK_Stock/DCKinc/Plugin/";
 
         public static FloatCurve stringToFloatCurve(string curveString)
         {
