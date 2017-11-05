@@ -31,6 +31,8 @@ This KSP Mod incorporates modified code from a Default Action Groups and is used
 
 https://github.com/KSPSnark/DefaultActionGroups
 
+https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
+
 
 In addition to this, DCK incorporates the texture switching code from Firespitter. To comply with the requirements of Firespitter's license, the following permission notice, applicable to those parts of the code only, is included below:
 

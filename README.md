@@ -1,15 +1,15 @@
 DCK - Davinci's Combat Kit
 
-A mod for KSP that adds 22 camouflage patterns, 19 solid colors and 1 Waldo to Stock, Aviator Arsenal. BD Armory Continued, BDMk22, SM_AFVs, Mk2 Expansion, QuizTech, KAX, Airplane Plus, BAD T Props and Procedural Parts 
+A mod for KSP that adds 22 camouflage patterns, 19 solid colors and 1 Waldo to Stock, Aviator Arsenal. BD Armory Continued, BDMk22, SM_AFVs, Mk2 Expansion, QuizTech, KAX, Airplane Plus, BAD T Props and Procedural Parts
 
-In addition to this, DCK contains Stealth Coating parts (YCSM - You Can't See Me) that reduces the radar cross section of the craft it is attached to when using the YCSM part in conjunction with BDAc as well as Transparent/Invisible Aircraft Armor (FAR compatibility MM patch included for those who use DCK Aircraft Armor with FAR)
+In addition to this, DCK contains Stealth Coating parts (YCSM - You Can't See Me) that reduces the radar cross section of the craft it is attached to when using the YCSM part in conjunction with BDAc 
 
-DCK Features
-- 42 alternate Parts skins
-- DCK Paintshop courtesy of @TheDog ... Now you don't have to switch textures on each part one by one (see video below)
-- Transparent/Invisible Aircraft Armor ... protect that new paint job from scratches, bullets, missiles and even high speed impact against other craft (Armor models courtesy of @SpannerMonkey(smce)) .... now compatible with FAR by making the armor invisible to FAR's aero calculations ... MM patch included in download - Courtesy of @SuicidalInsanity
-- DCK Wheels ... If you've ever wanted to change the stock wheels to something with a little more pizzaz then DCK has you covered (see video's below ... Contributions by @Wrench Head)
-- DCKinc ... Contains 2 YCSM Stealth Coating modules and a miniaturized 'Panther' engine called the 'Kitty', 2 extended Mk0 LF fuselages and an Mk0 LF drop tank as well as the Plugin that runs DCK 
+DCK also contains Transparent/Invisible Aircraft Armor (FAR compatibility MM patch included for those who use DCK Aircraft Armor with FAR) to protect your shiny new paintjob
+
+As well as what is listed above, DCK now has Energy Shields to help protect your invisible armor from getting scratched 
+
+There are also some additional parts ... these can be found in the DCK part category in game 
+
 
 Build Status License: GPL v3 License
 
@@ -22,9 +22,16 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.
 
 
-This KSP Mod incorporates code from a part of USITools called PartCatalog.cs and is used under the GPLv3 License. 
+This KSP Mod incorporates code from a part of USITools and is used under the GPLv3 License. 
 
 https://github.com/UmbraSpaceIndustries/UmbraSpaceIndustries/blob/master/USITools/USITools/PartCatalog.cs
+
+
+This KSP Mod incorporates modified code from a Default Action Groups and is used under the CC BY-NC-ND 4.0 License. All credit goes to Snark for code related to this feature.
+
+https://github.com/KSPSnark/DefaultActionGroups
+
+https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
 
 
 In addition to this, DCK incorporates the texture switching code from Firespitter. To comply with the requirements of Firespitter's license, the following permission notice, applicable to those parts of the code only, is included below:
