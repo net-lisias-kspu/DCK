@@ -1,6 +1,8 @@
 DCK - Davinci's Combat Kit
 
-A mod for KSP that adds 22 camouflage patterns, 19 solid colors and 1 Waldo to Stock, Aviator Arsenal. BD Armory Continued, BDMk22, SM_AFVs, Mk2 Expansion, QuizTech, KAX, Airplane Plus, BAD T Props and Procedural Parts
+A mod for KSP that adds 22 camouflage patterns, 19 solid colors and 1 Waldo to Stock, Aviator Arsenal. BD Armory Continued, BDMk22 Cockpits, SM_AFVs, Mk2 Expansion, QuizTech, KAX, Airplane Plus, BAD T Props; ALG, AoA Tech, SXT and Procedural Parts
+
+Adds DCK Wheels which gives you a selection of tires and rims for your stock rover wheels
 
 In addition to this, DCK contains Stealth Coating parts (YCSM - You Can't See Me) that reduces the radar cross section of the craft it is attached to when using the YCSM part in conjunction with BDAc 
 
