@@ -73,6 +73,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GUI\DCKSplashScreen.cs" />
+    <Compile Include="Modules\ModuleDCKShields.cs" />
+    <Compile Include="Modules\ModuleDCKCloak.cs" />
     <Compile Include="Switchers\DCKStextureswitch2.cs" />
     <Compile Include="DCKAGSettings.cs" />
     <Compile Include="Switchers\DCKmeshSwitch.cs" />
@@ -86,7 +88,7 @@
     <Compile Include="Switchers\DCKtextureswitch2.cs" />
     <Compile Include="Tools\DCKtools.cs" />
     <Compile Include="Switchers\MeshCreator.cs" />
-    <Compile Include="ModuleDCKAG.cs" />
+    <Compile Include="Modules\ModuleDCKAG.cs" />
     <Compile Include="DCKPartCatalog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
