@@ -1,4 +1,14 @@
-﻿/*Copyright © 2016, wasml
+﻿/*Copywrite © 2018, DoctorDavinci
+ * 
+ * 
+ * All code used from the Cloaking Device mod has been absorbed into this code via
+ * one-way compatibility from CC BY-SA 4.0 to GPLv3 and is released as such
+ * <https://creativecommons.org/2015/10/08/cc-by-sa-4-0-now-one-way-compatible-with-gplv3/>
+ * 
+
+ Attribution and previous license.....
+--------------------------------------------------------------------------------------------------
+ * Copyright © 2016, wasml
  Licensed under the Attribution-ShareAlike 4.0 (CC BY-SA 4.0)
  creative commons license. See <https://creativecommons.org/licenses/by-nc-sa/4.0/>
  for full details.
@@ -13,25 +23,31 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+--------------------------------------------------------------------------------------------------
 */
 using System;
+using System.Collections.Generic;
+using System.Collections;
+using BDArmory.Radar;
+using BDArmory.Parts;
+using BDArmory;
 using UnityEngine;
 
-namespace DCKinc
+namespace DCKinc.Parts
 {
     // TODO: correct self cloak state when switched while cloaked
     //  Add option to disable renderer disabling
 
-    public class ModuleDCKCloak : PartModule
+    public class ModuleDCKCloak : ModuleECMJammer
     {
         private static float UNCLOAKED = 1.0f;
         private static float RENDER_THRESHOLD = 0.8f;
         private static string modTag = "[ModuleDCKCloak] ";
 
-        private float fadePerTime = 0.5f;
+        private float fadePerTime = 0.8f;
         private bool currentShadowState = true;
 
-        // If this is set true in the cfg file ECPerSec, areaExponet, maxfade, shadowCutoff and
+        // If this is set true in the cfg file PowerPerSec, areaExponet, maxfade, shadowCutoff and
         // fadeTime are tweakable in the editor and in flight
         [KSPField(isPersistant = true)]
         public bool sandboxMode = false;
@@ -39,25 +55,39 @@ namespace DCKinc
         [KSPField(isPersistant = true)]
         public bool debugMode = false;
 
-        [KSPField(isPersistant = true, guiActiveEditor = false),
-         UI_Toggle(controlEnabled = true, scene = UI_Scene.All, disabledText = "Off", enabledText = "On")]
+        [KSPField(isPersistant = true)]
+        public bool pauseRoutine = false;
+
+        [KSPField(isPersistant = true)]
+        public bool radarSetting = false;
+
+
+        [KSPField(isPersistant = true, guiActive = true, guiActiveEditor = true, guiName = "Auto Cloak"),
+            UI_Toggle(controlEnabled = true, scene = UI_Scene.All, disabledText = "Off", enabledText = "On")]
+        public bool autoCloak = false;
+
+        [KSPField(isPersistant = true, guiActive = false, guiActiveEditor = false)]
+//        ,
+//         UI_Toggle(controlEnabled = true, scene = UI_Scene.All, disabledText = "Off", enabledText = "On")]
         public bool hideParticleEffects = false;
 
-        [KSPField(isPersistant = true, guiActive = false, guiActiveEditor = false),
-         UI_Toggle(controlEnabled = true, scene = UI_Scene.All, disabledText = "Off", enabledText = "On")]
+        [KSPField(isPersistant = true, guiActive = false, guiActiveEditor = false)]
+        //,
+        // UI_Toggle(controlEnabled = true, scene = UI_Scene.All, disabledText = "Off", enabledText = "On")]
         public bool fullRenderHide = true;
 
         [KSPField(isPersistant = false, guiActive = false, guiActiveEditor = false, guiName = "Surface Area", guiFormat = "F1")]
         private float surfaceAreaToCloak = 0.0f;
 
         [KSPField(isPersistant = false, guiActive = false, guiActiveEditor = false, guiName = "EC Used", guiFormat = "F1")]
-        private float ECRequired = 0.0f;
+        private float PowerRequired = 0.0f;
 
         [KSPField(isPersistant = false)]
         private bool recalcCloak = true;
 
-        [KSPField(isPersistant = true, guiActiveEditor = true, guiActive = true, guiName = "Cloak"),
-         UI_Toggle(controlEnabled = true, scene = UI_Scene.All, disabledText = "Off", enabledText = "On")]
+        [KSPField(isPersistant = true, guiActiveEditor = false, guiActive = false, guiName = "Cloak")]
+        /*,
+         UI_Toggle(controlEnabled = true, scene = UI_Scene.All, disabledText = "Off", enabledText = "On")]*/
         public bool cloakOn = false;
 
         [KSPField(isPersistant = true)]
@@ -66,28 +96,31 @@ namespace DCKinc
         [KSPField(isPersistant = true)]
         public bool legacyBehavior = false;
 
-        [KSPField(isPersistant = true, guiActive = true, guiActiveEditor = true),
-         UI_FloatRange(controlEnabled = true, scene = UI_Scene.All, minValue = 0.0f, maxValue = 3.0f, stepIncrement = 0.1f)]
+        [KSPField(isPersistant = true, guiActive = false, guiActiveEditor = false)]
+        //,
+        // UI_FloatRange(controlEnabled = true, scene = UI_Scene.All, minValue = 0.5f, maxValue = 3.0f, stepIncrement = 0.1f)]
         public float areaExponet = 1.0f;
         
-        [KSPField(isPersistant = true, guiActive = true, guiActiveEditor = true),
-         UI_FloatRange(controlEnabled = true, scene = UI_Scene.All, minValue = 0.0f, maxValue = 1000.0f)]
-        public float ECPerSec = 1.0f; // Electric charge per second
+        [KSPField(isPersistant = true, guiActive = false, guiActiveEditor = false)]
+        //,
+        // UI_FloatRange(controlEnabled = true, scene = UI_Scene.All, minValue = 0.5f, maxValue = 10.0f, stepIncrement = 0.5f)]
+        public float PowerPerSec = 1.0f; // EC charge per second
         
         [KSPField(isPersistant = true, guiActive = true, guiActiveEditor = true, guiUnits = "sec"),
-         UI_FloatRange(controlEnabled = true, scene = UI_Scene.All, minValue = 0.0f, maxValue = 30.0f)]
-        public float fadeTime = 0.2f; // In seconds
+         UI_FloatRange(controlEnabled = true, scene = UI_Scene.All, minValue = 0.0f, maxValue = 10.0f)]
+        public float fadeTime = 0.1f; // In seconds
         
-        [KSPField(isPersistant = true, guiActive = true, guiActiveEditor = true),
+        [KSPField(isPersistant = true, guiActive = false, guiActiveEditor = false),
          UI_FloatRange(controlEnabled = true, scene = UI_Scene.All, minValue = 0.0f, maxValue = 1.0f, stepIncrement = 0.05f)]
-        public float maxfade = 0.4f; // invisible:0 to uncloaked:1
+        public float maxfade = 0.0f; // invisible:0 to uncloaked:1
         
-        [KSPField(isPersistant = true, guiActive = true, guiActiveEditor = true),
-         UI_FloatRange(controlEnabled = true, scene = UI_Scene.All, minValue = 0.0f, maxValue = 1.0f, stepIncrement = 0.1f)]
+        [KSPField(isPersistant = true, guiActive = false, guiActiveEditor = false)]
+        /*,
+         UI_FloatRange(controlEnabled = true, scene = UI_Scene.All, minValue = 0.0f, maxValue = 1.0f, stepIncrement = 0.1f)]*/
         public float shadowCutoff = 0.8f;
 
-        [KSPField(isPersistant = true, guiActiveEditor = true, guiActive = true, guiName = "Self Cloak"),
-         UI_Toggle(controlEnabled = true, scene = UI_Scene.All, disabledText = "Off", enabledText = "On")]
+        [KSPField(isPersistant = true, guiActiveEditor = false, guiActive = false, guiName = "Self Cloak")]
+//         UI_Toggle(controlEnabled = true, scene = UI_Scene.All, disabledText = "Off", enabledText = "On")]
         public bool selfCloak = true;
 
         //---------------------------------------------------------------------
@@ -164,7 +197,8 @@ namespace DCKinc
                     p = vessel.parts[i];
                     if (p != null)
                         if (selfCloak || (p != part))
-                            surfaceAreaToCloak = (float)(surfaceAreaToCloak + p.skinExposedArea);
+//                        surfaceAreaToCloak = (float)(surfaceAreaToCloak + p.skinExposedArea);
+                        surfaceAreaToCloak = (float)(p.skinExposedArea);
                 }
             }
         }
@@ -186,27 +220,27 @@ namespace DCKinc
 
         public override void OnStart(StartState state)
         {
-            setUI_FieldVisibility("areaExponet", sandboxMode || debugMode);
-            setUI_FieldVisibility("ECPerSec", sandboxMode || debugMode);
-            setUI_FieldVisibility("fadeTime", sandboxMode || debugMode);
-            setUI_FieldVisibility("shadowCutoff", sandboxMode || debugMode);
-            setUI_FieldVisibility("hideParticleEffects", sandboxMode || debugMode);
-            setUI_FieldVisibility("fullRenderHide", sandboxMode || debugMode);
+//            setUI_FieldVisibility("areaExponet", sandboxMode || debugMode);
+//            setUI_FieldVisibility("PowerPerSec", sandboxMode || debugMode);
+//            setUI_FieldVisibility("fadeTime", sandboxMode || debugMode);
+//            setUI_FieldVisibility("shadowCutoff", sandboxMode || debugMode);
+//            setUI_FieldVisibility("hideParticleEffects", sandboxMode || debugMode);
+//            setUI_FieldVisibility("fullRenderHide", sandboxMode || debugMode);
 
-            setGUI_FieldVisibility("surfaceAreaToCloak", debugMode);
-            setGUI_FieldVisibility("ECRequired", debugMode);
+//            setGUI_FieldVisibility("surfaceAreaToCloak", debugMode);
+//            setGUI_FieldVisibility("PowerRequired", debugMode);
 
             // Sign up for callbacks on vessel changes
             GameEvents.onVesselWasModified.Add(ReconfigureEvent);
 
             // Toggle callbacks
-            BaseField toggleField = Fields[nameof(selfCloak)];
-            UI_Toggle editOption = (UI_Toggle)toggleField.uiControlEditor;
-            editOption.onFieldChanged = UpdateSelfCloakField;
+//            BaseField toggleField = Fields[nameof(selfCloak)];
+//            UI_Toggle editOption = (UI_Toggle)toggleField.uiControlEditor;
+//            editOption.onFieldChanged = UpdateSelfCloakField;
 
-            toggleField = Fields[nameof(cloakOn)];
-            editOption = (UI_Toggle)toggleField.uiControlEditor;
-            editOption.onFieldChanged = UpdateCloak;
+//            toggleField = Fields[nameof(cloakOn)];
+//            editOption = (UI_Toggle)toggleField.uiControlEditor;
+//            editOption.onFieldChanged = UpdateCloak;
 
             // Doesn't work!
             // FloatRange slider callbacks
@@ -259,7 +293,7 @@ namespace DCKinc
                     currentShadowState = shadowsState;
                 }
 
-                if (hideParticleEffects)
+/*                if (hideParticleEffects)
                 {
                     EllipsoidParticleEmitter[] EPE = p.GetComponentsInChildren<EllipsoidParticleEmitter>();
                     for (i = 0; i < EPE.GetLength(0); i++)
@@ -267,35 +301,39 @@ namespace DCKinc
                         EPE[i].enabled = renderState;
                     }
                 }
+                */
             }
         }
 
         private void ReconfigureEvent(Vessel v)
         {
-            if (v == null) { return; }
+            if (HighLogic.LoadedSceneIsFlight)
+            {
+                if (v == null) { return; }
 
-            if (v == vessel)
-            {   // This is the cloaking vessel - recalc EC required based on new configuration (unless this is a dock event)
-                recalcCloak = true;
-                recalcSurfaceArea();
-            }
-            else
-            {   // This is the added/removed part - reset it to normal
-                ModuleDCKCloak mc = null;
-                foreach (Part p in v.parts)
-                    if ((p != null) &&
-                        ((p != part) || selfCloak))
-                    {
-                        //p.setOpacity(UNCLOAKED); // 1.1.3
-                        p.SetOpacity(UNCLOAKED); // 1.2.2 and up
-                        SetRenderAndShadowStates(p, true, true);
-                        Debug.Log(modTag + "Uncloak " + p.name);
+                if (v == vessel)
+                {   // This is the cloaking vessel - recalc EC required based on new configuration (unless this is a dock event)
+                    recalcCloak = true;
+                    recalcSurfaceArea();
+                }
+                else
+                {   // This is the added/removed part - reset it to normal
+                    ModuleDCKCloak mc = null;
+                    foreach (Part p in v.parts)
+                        if ((p != null) &&
+                            ((p != part) || selfCloak))
+                        {
+                            //p.setOpacity(UNCLOAKED); // 1.1.3
+                            p.SetOpacity(UNCLOAKED); // 1.2.2 and up
+                            SetRenderAndShadowStates(p, true, true);
+                            Debug.Log(modTag + "Uncloak " + p.name);
 
-                        // If the other vessel has a cloak device let it know it needs to do a refresh
-                        mc = p.FindModuleImplementing<ModuleDCKCloak>();
-                        if (mc != null)
-                            mc.recalcCloak = true;
-                    }
+                            // If the other vessel has a cloak device let it know it needs to do a refresh
+                            mc = p.FindModuleImplementing<ModuleDCKCloak>();
+                            if (mc != null)
+                                mc.recalcCloak = true;
+                        }
+                }
             }
         }
 
@@ -306,29 +344,29 @@ namespace DCKinc
 
             if (sandboxMode || debugMode)
                 st = "Fade/sec: User setable\n" +
-                     "EC = Area *Fade% * EC/sec ^ Exponent";
+                     "EC = Area *Fade% * PowerPerSec ^ Exponent";
             else
                 st = "Fade/sec: " + fadePerTime.ToString("F2") + "\n" +
-                     "EC = Area * Fade% * " + ECPerSec.ToString("F2") + " ^ " + areaExponet.ToString("F2");
+                     "EC = Area * Fade% * " + PowerPerSec.ToString("F2") + " ^ " + areaExponet.ToString("F2");
             return st;
         }
 
-        protected void drawEC()
+        protected void drawPower()
         {
-            ECRequired = Time.deltaTime * (1 - visiblilityLevel) * (float)Math.Pow(surfaceAreaToCloak * ECPerSec, areaExponet);
+            PowerRequired = Time.deltaTime * (1 - visiblilityLevel) * (float)Math.Pow(surfaceAreaToCloak * PowerPerSec, areaExponet);
 
-            float ECAcquired = part.RequestResource("ElectricCharge", ECRequired);
-            if (ECAcquired < ECRequired * 0.999)
+            float PowerAcquired = part.RequestResource("ElectricCharge", PowerRequired);
+            if (PowerAcquired < PowerRequired * 0.1)
             {
                 if (legacyBehavior)
                 {
-                    // Cloak field turns off if not provided at least 99.9% full charge
-                    ScreenMsg("EC low. Req " + (ECRequired / Time.deltaTime).ToString());
+                    // Cloak field turns off if not provided at least 10% full EC charge
+                    ScreenMsg("EC low. Req " + (PowerRequired / Time.deltaTime).ToString());
                     Events["toggleCloak"].guiName = "Cloak is Off";
                     cloakOn = false;
                 }
                 else
-                    visiblilityLevel = -((ECAcquired / (Time.deltaTime * (float)Math.Pow(surfaceAreaToCloak * ECPerSec, areaExponet))) - 1);
+                    visiblilityLevel = -((PowerAcquired / (Time.deltaTime * (float)Math.Pow(surfaceAreaToCloak * PowerPerSec, areaExponet))) - 1);
             }
         }
 
@@ -350,11 +388,103 @@ namespace DCKinc
                    recalcCloak;                                     // A forced refresh 
         }
 
+        public void radarOn()
+        {
+            List<ModuleRadar> radarParts = new List<ModuleRadar>(200);
+            foreach (Part p in vessel.Parts)
+            {
+                radarParts.AddRange(p.FindModulesImplementing<ModuleRadar>());
+            }
+            foreach (ModuleRadar radarPart in radarParts)
+            {
+                radarPart.EnableRadar();
+            }
+        }
+
+        protected void radarOff()
+        {
+            List<ModuleRadar> radarParts = new List<ModuleRadar>(200);
+            foreach (Part p in vessel.Parts)
+            {
+                radarParts.AddRange(p.FindModulesImplementing<ModuleRadar>());
+            }
+            foreach (ModuleRadar radarPart in radarParts)
+            {
+                radarPart.DisableRadar();
+            }
+        }
+
+        protected void CloakCheck()
+        {
+            if (!jammerEnabled && !cloakOn)
+            {
+                rcsReductionFactor = 1;
+            }
+
+            if (jammerEnabled && !cloakOn)
+            {
+                cloakOn = true;
+            }
+
+            if (cloakOn && !jammerEnabled)
+            {
+                EnableJammer();
+            }
+
+            if (jammerEnabled && cloakOn)
+            {
+                radarOff();
+                rcsReductionFactor = 0;
+                drawPower();
+            }
+        }
+
+        protected void UnderfireCheck()
+        {
+            if (BDAcWM.isFlaring || BDAcWM.underFire)
+            {
+                EnableJammer();
+                radarOff();
+                rcsReductionFactor = 0.0f;
+                cloakOn = true;
+                PauseRoutine();
+            }
+            pauseRoutine = false;
+            cloakOn = false;
+        }
+
+        IEnumerator PauseRoutine()
+        {
+            pauseRoutine = true;
+            yield return new WaitForSeconds(10);
+            pauseRoutine = false;
+        }
+
+        public MissileFire BDAcWM;
+
+        public ModuleRadar Radar;
+
         public override void OnUpdate()
         {
-            // Get power for the device
-            if (cloakOn)
-                drawEC();
+            if (autoCloak)
+            {
+                if (jammerEnabled)
+                {
+                    radarOff();
+                    cloakOn = true;
+                    drawPower();
+                    rcsReductionFactor = 0.0f;
+                }
+                else
+                {
+                    rcsReductionFactor = 1;
+                    cloakOn = false;
+                }
+            }
+            else
+            {
+                CloakCheck();
+            }
 
             // Are we at our desired cloak level?
             if (IsTransitioning())
