@@ -1,14 +1,16 @@
 DCK - Davinci's Combat Kit
 
-A mod for KSP that adds 22 camouflage patterns, 19 solid colors and 1 Waldo to Stock, Aviator Arsenal. BD Armory Continued, BDMk22 Cockpits, SM_AFVs, Mk2 Expansion, QuizTech, KAX, Airplane Plus, BAD T Props; ALG, AoA Tech, SXT and Procedural Parts
+Adds 22 camouflage patterns, 19 solid colors and 1 Waldo to Stock, Aviator Arsenal. BD Armory Continued, BDMk22 Cockpits, SM_AFVs, Mk2 Expansion, QuizTech, KAX, Airplane Plus, BAD T Props; ALG, AoA Tech, RvB, SXT and Procedural Parts
 
 Adds DCK Wheels which gives you a selection of tires and rims for your stock rover wheels
 
-In addition to this, DCK contains Stealth Coating parts (YCSM - You Can't See Me) that reduces the radar cross section of the craft it is attached to when using the YCSM part in conjunction with BDAc 
+DCK contains Stealth Coating parts (YCSM - You Can't See Me) that reduces the radar cross section of the craft it is attached to when using the YCSM part in conjunction with BDAc 
 
 DCK also contains Transparent/Invisible Aircraft Armor (FAR compatibility MM patch included for those who use DCK Aircraft Armor with FAR) to protect your shiny new paintjob
 
-As well as what is listed above, DCK now has Energy Shields to help protect your invisible armor from getting scratched 
+DCK Shields help protect your invisible armor from getting scratched 
+
+DCK Active Camo hides you from enemy radar when used in conjunction with ... DO NOT USE WITH YCSM MODULES or any BDAc ECM jammer that is set to be always on
 
 There are also some additional parts ... these can be found in the DCK part category in game 
 
@@ -24,15 +26,19 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.
 
 
-This KSP Mod incorporates code from a part of USITools and is used under the GPLv3 License. 
+This KSP Mod incorporates code from the Cloaking Device mod ... All credit goes to @wasml 
+http://spacedock.info/mod/217/Cloaking%20Device
 
+All code used from the Cloaking Device mod has been absorbed into DCK via one-way compatibility from CC BY-SA 4.0 to GPLv3 and is now released under GPLv3
+https://creativecommons.org/2015/10/08/cc-by-sa-4-0-now-one-way-compatible-with-gplv3/
+
+
+This KSP Mod incorporates code from a part of USITools and is used under the GPLv3 License. 
 https://github.com/UmbraSpaceIndustries/UmbraSpaceIndustries/blob/master/USITools/USITools/PartCatalog.cs
 
 
 This KSP Mod incorporates modified code from a Default Action Groups and is used under the CC BY-NC-ND 4.0 License. All credit goes to Snark for code related to this feature.
-
 https://github.com/KSPSnark/DefaultActionGroups
-
 https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
 
 
@@ -44,7 +50,6 @@ You may reuse code and textures from this mod, as long as you give credit in the
 UV map texture guides are included so you can re-skin to your liking.
 
 For reuse of the plugin, please either direct people to download the dll from my official release, OR recompile the wanted partmodule/class with a new class name to avoid conflicts.
-
 https://github.com/snjo/Firespitter
 
 

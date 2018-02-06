@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\KSP_DEV\GameData\Firespitter\Plugins\</OutputPath>
+    <OutputPath>.\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -72,8 +72,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Modules\ModuleDCKStealth.cs" />
+    <Compile Include="Modules\ModuleDCKACS.cs" />
     <Compile Include="GUI\DCKSplashScreen.cs" />
-    <Compile Include="Modules\ModuleDCKCloak.cs" />
     <Compile Include="Modules\ModuleDCKShields.cs" />
     <Compile Include="Switchers\DCKStextureswitch2.cs" />
     <Compile Include="DCKAGSettings.cs" />

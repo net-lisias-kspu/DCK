@@ -15,7 +15,16 @@ C:\Users\Black Ops\Desktop\MODS\DCK\DCK\DCKinc_Plugin\obj\Debug\DCKinc.dll
 C:\Users\Black Ops\Desktop\MODS\DCK\DCK\DCKinc_Plugin\obj\Debug\DCKinc.pdb
 C:\Users\Black Ops\Desktop\MODS\DCK\DCK\DCKinc_Plugin\obj\Debug\DCKinc.csproj.CoreCompileInputs.cache
 C:\Users\Black Ops\Desktop\MODS\DCK\DCK\DCKinc_Plugin\obj\Debug\DCKinc.csprojResolveAssemblyReference.cache
-C:\Users\Black Ops\Desktop\MODS\@MY MODS\DCK\DCKinc_Plugin\obj\Debug\DCKinc.csprojResolveAssemblyReference.cache
 C:\Users\Black Ops\Desktop\MODS\@MY MODS\DCK\DCKinc_Plugin\obj\Debug\DCKinc.csproj.CoreCompileInputs.cache
 C:\Users\Black Ops\Desktop\MODS\@MY MODS\DCK\DCKinc_Plugin\obj\Debug\DCKinc.dll
 C:\Users\Black Ops\Desktop\MODS\@MY MODS\DCK\DCKinc_Plugin\obj\Debug\DCKinc.pdb
+C:\Users\Black Ops\Desktop\MODS\@MY MODS\DCK\GameData\DCKinc\Plugin\DCKinc.dll
+C:\Users\Black Ops\Desktop\MODS\@MY MODS\DCK\GameData\DCKinc\Plugin\DCKinc.pdb
+C:\Users\Black Ops\Desktop\MODS\@MY MODS\DCK\DCKinc_Plugin\DCKinc.dll
+C:\Users\Black Ops\Desktop\MODS\@MY MODS\DCK\DCKinc_Plugin\DCKinc.pdb
+C:\Users\Black Ops\Desktop\MODS\@MY MODS\DCK\DCKinc_Plugin\BDArmory.Core.dll
+C:\Users\Black Ops\Desktop\MODS\@MY MODS\DCK\DCKinc_Plugin\BDArmory.dll
+C:\Users\Black Ops\Desktop\MODS\@MY MODS\DCK\DCKinc_Plugin\KSPAssets.dll
+C:\Users\Black Ops\Desktop\MODS\@MY MODS\DCK\DCKinc_Plugin\System.Core.dll
+C:\Users\Black Ops\Desktop\MODS\@MY MODS\DCK\DCKinc_Plugin\System.dll
+C:\Users\Black Ops\Desktop\MODS\@MY MODS\DCK\DCKinc_Plugin\obj\Debug\DCKinc.csprojResolveAssemblyReference.cache
