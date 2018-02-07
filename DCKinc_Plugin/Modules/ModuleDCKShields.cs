@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
-using BDArmory.Parts;
 using UnityEngine;
 
 namespace DCKinc.Parts
@@ -13,10 +12,6 @@ namespace DCKinc.Parts
         public double totalAmount = 0;
         public double maxAmount = 0;
 
-        [KSPField(isPersistant = true, guiActiveEditor = true, guiActive = true, guiName = "Auto Deploy"),
-         UI_Toggle(controlEnabled = true, scene = UI_Scene.All, disabledText = "Off", enabledText = "On")]
-        public bool autoDeploy = false;
-
         [KSPField(isPersistant = true)]
         private bool resourceAvailable;
 
@@ -24,7 +19,7 @@ namespace DCKinc.Parts
         private bool resourceCheck;
 
         [KSPField(isPersistant = true)]
-        private bool shieldsEnabled;
+        public bool shieldsEnabled;
 
         [KSPField(isPersistant = true)]
         private bool pauseRoutine = false;
@@ -39,18 +34,24 @@ namespace DCKinc.Parts
 
         public override void OnUpdate()
         {
-            CheckRA();
-            checkDeployState();
-            if (autoDeploy)
+            if (HighLogic.LoadedSceneIsFlight)
             {
-                BDAcJammerCheck();
-            }
+                CheckRA();
+                checkDeployState();
 
-            if (!resourceAvailable)
-            {
-                lowEC();
+                if (!resourceAvailable)
+                {
+                    lowShieldPlasma();
+                }
             }
             base.OnUpdate();
+        }
+
+        IEnumerator PauseRoutine()
+        {
+            pauseRoutine = true;
+            yield return new WaitForSeconds(5);
+            pauseRoutine = false;
         }
 
         private void ScreenMsg(string msg)
@@ -58,29 +59,33 @@ namespace DCKinc.Parts
             ScreenMessages.PostScreenMessage(new ScreenMessage(msg, 4, ScreenMessageStyle.UPPER_CENTER));
         }
 
-        private void lowEC()
-        {
-            ScreenMsg("EC too low ...");
-            DisableShields();
-            PauseRoutine();
-        }
-
+        /// <summary>
+        /// Checks
+        /// </summary>
         private void checkDeployState()
         {
-            List<ModuleActiveRadiator> shieldParts = new List<ModuleActiveRadiator>(200);
+            List<ModuleDCKShields> sParts = new List<ModuleDCKShields>(200);
             foreach (Part p in vessel.Parts)
             {
-                shieldParts.AddRange(p.FindModulesImplementing<ModuleActiveRadiator>());
+                sParts.AddRange(p.FindModulesImplementing<ModuleDCKShields>());
             }
-            foreach (ModuleActiveRadiator shieldPart in shieldParts)
+            foreach (ModuleDCKShields sPart in sParts)
             {
-                if (shieldPart.IsCooling)
+                List<ModuleActiveRadiator> shieldParts = new List<ModuleActiveRadiator>(200);
+                foreach (Part p in vessel.Parts)
                 {
-                    shieldsEnabled = true;
+                    shieldParts.AddRange(p.FindModulesImplementing<ModuleActiveRadiator>());
                 }
-                else
+                foreach (ModuleActiveRadiator shieldPart in shieldParts)
                 {
-                    shieldsEnabled = false;
+                    if (shieldPart.IsCooling)
+                    {
+                        shieldsEnabled = true;
+                    }
+                    else
+                    {
+                        shieldsEnabled = false;
+                    }
                 }
             }
         }
@@ -89,12 +94,12 @@ namespace DCKinc.Parts
         {
             foreach (var p in vessel.parts)
             {
-                PartResource r = p.Resources.Where(n => n.resourceName == "ElectricCharge").FirstOrDefault();
+                PartResource r = p.Resources.Where(n => n.resourceName == "ShieldPlasma").FirstOrDefault();
                 if (r != null)
                 {
                     totalAmount += r.amount;
                     maxAmount += r.maxAmount;
-                    if (totalAmount < maxAmount * 0.1)
+                    if (totalAmount < maxAmount * 0.05)
                     {
                         resourceAvailable = false;
                     }
@@ -110,12 +115,12 @@ namespace DCKinc.Parts
         {
             foreach (var p in vessel.parts)
             {
-                PartResource r = p.Resources.Where(n => n.resourceName == "ElectricCharge").FirstOrDefault();
+                PartResource r = p.Resources.Where(n => n.resourceName == "ShieldPlasma").FirstOrDefault();
                 if (r != null)
                 {
                     totalAmount += r.amount;
                     maxAmount += r.maxAmount;
-                    if (totalAmount < maxAmount * 0.35)
+                    if (totalAmount < maxAmount * 0.2)
                     {
                         resourceCheck = false;
                     }
@@ -127,51 +132,52 @@ namespace DCKinc.Parts
             }
         }
 
-        public void BDAcJammerCheck()
+        public void BDAcTriggerCheck()
         {
-            List<ModuleECMJammer> jp = new List<ModuleECMJammer>(200);
+            List<ModuleDCKTrigger> jp = new List<ModuleDCKTrigger>(200);
             foreach (Part p in vessel.Parts)
             {
-                jp.AddRange(p.FindModulesImplementing<ModuleECMJammer>());
+                jp.AddRange(p.FindModulesImplementing<ModuleDCKTrigger>());
             }
-            foreach (ModuleECMJammer j in jp)
+            foreach (ModuleDCKTrigger j in jp)
             {
-                if (j.jammerEnabled && !shieldsEnabled)
+                if (j.jammerEnabled)
                 {
                     EnableShields();
                 }
             }
         }
 
-        IEnumerator PauseRoutine()
+        /// <summary>
+        /// Control
+        /// </summary>
+        private void lowShieldPlasma()
         {
-            pauseRoutine = true;
-            yield return new WaitForSeconds(5);
-            pauseRoutine = false;
+            ScreenMsg("Shield Plasma too low ...");
+            DisableShields();
+            PauseRoutine();
         }
 
         public void EnableShields()
         {
-            CheckRA2();
-            if (!pauseRoutine)
+            if (!pauseRoutine && !shieldsEnabled)
             {
-                List<ModuleDeployableRadiator> shieldParts = new List<ModuleDeployableRadiator>(200);
+                CheckRA2();
+                List<ModuleDCKShields> shieldParts = new List<ModuleDCKShields>(200);
                 foreach (Part p in vessel.Parts)
                 {
-                    shieldParts.AddRange(p.FindModulesImplementing<ModuleDeployableRadiator>());
+                    shieldParts.AddRange(p.FindModulesImplementing<ModuleDCKShields>());
                 }
-                foreach (ModuleDeployableRadiator shieldPart in shieldParts)
+                foreach (ModuleDCKShields shieldPart in shieldParts)
                 {
                     if (resourceCheck)
                     {
-                        shieldPart.Extend();
-                        ScreenMsg("Shields deploying");
-                        shieldsEnabled = true;
+                        ScreenMsg("Deploying Shields");
+                        DeployShields();
                     }
                     else
                     {
-                        ScreenMsg("EC too low ... Shields unable to deploy");
-                        shieldsEnabled = false;
+                        ScreenMsg("Shield Plasma too low ... Shields unable to deploy");
                         PauseRoutine();
                     }
                 }
@@ -182,36 +188,63 @@ namespace DCKinc.Parts
             }
         }
 
-        public void RetractShields()
+        public void DisableShields()
         {
-            List<ModuleDeployableRadiator> shieldParts = new List<ModuleDeployableRadiator>(200);
-            foreach (Part p in vessel.Parts)
+            if (shieldsEnabled)
             {
-                shieldParts.AddRange(p.FindModulesImplementing<ModuleDeployableRadiator>());
-            }
-            foreach (ModuleDeployableRadiator shieldPart in shieldParts)
-            {
-                shieldPart.Retract();
-                shieldsEnabled = false;
+                ScreenMsg("Retracting Shields");
+                RetractShields();
             }
         }
 
-        public void DisableShields()
+        public void DeployShields()
         {
-            List<ModuleActiveRadiator> shieldParts = new List<ModuleActiveRadiator>(200);
+            List<ModuleDCKShields> sParts = new List<ModuleDCKShields>(200);
             foreach (Part p in vessel.Parts)
             {
-                shieldParts.AddRange(p.FindModulesImplementing<ModuleActiveRadiator>());
+                sParts.AddRange(p.FindModulesImplementing<ModuleDCKShields>());
             }
-            foreach (ModuleActiveRadiator shieldPart in shieldParts)
+            foreach (ModuleDCKShields sPart in sParts)
             {
-                if (shieldPart.IsCooling)
+                List<ModuleDeployableRadiator> shieldParts = new List<ModuleDeployableRadiator>(200);
+                foreach (Part p in vessel.Parts)
                 {
-                    ScreenMsg("Shields Disabled ... Retracting");
-                    RetractShields();
+                    shieldParts.AddRange(p.FindModulesImplementing<ModuleDeployableRadiator>());
+                }
+                foreach (ModuleDeployableRadiator shieldPart in shieldParts)
+                {
+                    if (!shieldsEnabled)
+                    {
+                        shieldPart.Extend();
+                        shieldsEnabled = true;
+                    }
                 }
             }
         }
 
+        public void RetractShields()
+        {
+            List<ModuleDCKShields> sParts = new List<ModuleDCKShields>(200);
+            foreach (Part p in vessel.Parts)
+            {
+                sParts.AddRange(p.FindModulesImplementing<ModuleDCKShields>());
+            }
+            foreach (ModuleDCKShields sPart in sParts)
+            {
+                List<ModuleDeployableRadiator> shieldParts = new List<ModuleDeployableRadiator>(200);
+                foreach (Part p in vessel.Parts)
+                {
+                    shieldParts.AddRange(p.FindModulesImplementing<ModuleDeployableRadiator>());
+                }
+                foreach (ModuleDeployableRadiator shieldPart in shieldParts)
+                {
+                    if (shieldsEnabled)
+                    {
+                        shieldPart.Retract();
+                        shieldsEnabled = false;
+                    }
+                }
+            }
+        }
     }
 }

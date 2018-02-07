@@ -1,8 +1,8 @@
 ﻿using BDArmory.Parts;
 
-namespace DCKinc
+namespace DCKinc.Parts
 {
-    class ModuleDCKStealth : ModuleECMJammer
+    public class ModuleDCKStealth : ModuleECMJammer
     {
     }
 }
