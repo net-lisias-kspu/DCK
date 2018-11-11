@@ -1,5 +1,11 @@
 DCK - Davinci's Combat Kit :: Change Log
 
+* 2017-1211: 0.3.1.0 (DoctorDavinci) for KSP 1.3.1
+	+ Added texture switching to SXT, ALG and AoA Tech (AoA is an add on - Included in download)
+	+ Added extra small versions of the shields (Bubble, Round and Oval)
+	+ Started to balance the Shield p[ower requirements and weights in preparation for new BDAc damage system - still more to do
+	+ Updated Module Manager supplied in download to the latest version
+	+ Other minor improvements
 * 2017-1105: 0.3.0.0 (DoctorDavinci) for KSP 1.3.1
 	+ Added 3 types of Energy Shields to protect you from bullets and stuff (work pretty good for atmospheric re-entry too)
 	+ Included code to automatically set the Energy Shields Toggle Deploy to the Abort action group upon placing part in editor
