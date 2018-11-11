@@ -1,5 +1,17 @@
 DCK - Davinci's Combat Kit :: Change Log
 
+* 2017-1105: 0.3.0.0 (DoctorDavinci) for KSP 1.3.1
+	+ Added 3 types of Energy Shields to protect you from bullets and stuff (work pretty good for atmospheric re-entry too)
+	+ Included code to automatically set the Energy Shields Toggle Deploy to the Abort action group upon placing part in editor
+	+ Completed DCK refactor - Did this to reduce size and repetition of textures
+	+ Added a TweakScale patch for all DCK parts
+	+ DCK MM configs and textures for AP+, Aviator Arsenal and Quiztech have separate directories in GameData due to their size .. all other covered mods are now contained in DCKinc
+	+ Other minor stuff
+	+ DELETE PREVIOUS VERSION AND ADDONS BEFORE INSTALLATION
+	+ Copy the DCKinc folder from the GameData folder into your KSP GameData folder
+	+ Copy additional packs in the same manner if wanted
+	+ Profit
+	+ (Latest Module Manager as of this release is included in download)
 * 2017-1022: 0.2.9 (DoctorDavinci) for KSP 1.3.1
 	+ Changed directory structure and installation method to bring less confusion to the installation of DCK
 	+ Added Airplane Plus
