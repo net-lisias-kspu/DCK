@@ -1,5 +1,12 @@
 DCK - Davinci's Combat Kit :: Change Log
 
+* 2018-0317: 0.4.0.0 (DoctorDavinci) for KSP 1.4.1
+	+ KSP v1.4.x compatibility
+	+ Migrated custom editor category to DCK_FutureTech (to be released in the coming days)
+	+ Active Camouflage, YCSM's, Shileds and Aircraft Armor as well as the other parts are no longer available although are still in DCKinc so as to not break a users craft ... You must install DCK_FutureTech to utilize these parts - Parts will be migrated to DCK_FutureTech in an upcoming release
+	+ The reason for the migration of the parts is to allow for DCKinc to work without having to have BDAc installed ... parts such as the shields, active camouflage as well as some other soon to be released goodies need to be compiled against BDAc which would break DCK for some users, hence I have decided to migrate all parts to an upcoming mod called DCK_FutureTech
+	+ DCK_FutureTech will add hit point recharging for the Shields ... Shield and Active Camouflage deployment when under attack ... Active Camouflage (cloak) makes you invisible to radar while active... a NanoTech repair system that uses G.L.U.E. (Galvanized Liquid Universal Epoxy) to keep your craft together by repairing hit points
+	+ There are a few other things in the works such as a hitpoint balancer, hitpoint editor for in editor editing of hit points and armor as well as manual GPS entry menu and a satellite GPS targeting system
 * 2017-1211: 0.3.1.0 (DoctorDavinci) for KSP 1.3.1
 	+ Added texture switching to SXT, ALG and AoA Tech (AoA is an add on - Included in download)
 	+ Added extra small versions of the shields (Bubble, Round and Oval)
