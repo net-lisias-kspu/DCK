@@ -1,5 +1,7 @@
 DCK - Davinci's Combat Kit :: Change Log
 
+* 2019-1020: 0.4.1.0 (DoctorDavinci) for KSP 1.7.3
+	+ Re upload of DCK
 * 2018-0317: 0.4.0.0 (DoctorDavinci) for KSP 1.4.1
 	+ KSP v1.4.x compatibility
 	+ Migrated custom editor category to DCK_FutureTech (to be released in the coming days)
